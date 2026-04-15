@@ -24,34 +24,6 @@ export function CompostingSection() {
                 className="w-full h-full object-cover rounded-full"
               />
               
-              {/* Floating Data Tags */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 3 }}
-                className="absolute top-10 left-0 bg-background border border-border p-3 rounded-xl shadow-lg backdrop-blur-md flex items-center gap-3"
-              >
-                <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center">
-                  <RefreshCw size={16} />
-                </div>
-                <div>
-                  <p className="text-[10px] text-muted-foreground uppercase">Descomposición</p>
-                  <p className="font-bold font-mono">Fase Activa</p>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 4, delay: 1 }}
-                className="absolute bottom-20 -right-10 bg-background border border-border p-3 rounded-xl shadow-lg backdrop-blur-md flex items-center gap-3"
-              >
-                <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center">
-                  <Sprout size={16} />
-                </div>
-                <div>
-                  <p className="text-[10px] text-muted-foreground uppercase">Biomasa</p>
-                  <p className="font-bold font-mono">142 kg/mes</p>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
 
@@ -63,8 +35,9 @@ export function CompostingSection() {
             transition={{ duration: 0.8 }}
             className="order-1 lg:order-2"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 mb-6">
-              <span className="text-xs font-semibold tracking-wider uppercase">Economía Circular</span>
+            <div className="mb-8">
+              <div className="w-12 h-[2px] bg-orange-500 mb-3" />
+              <span className="text-xs font-bold tracking-widest uppercase text-orange-500">Circularidad Urbana</span>
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">

@@ -4,15 +4,16 @@ import { db } from "../db/index.js";
 import { users } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import dotenv from "dotenv";
+import { sendWelcomeEmail } from "./mailer.js";
 
 dotenv.config();
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID || "dummy",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "dummy",
-      callbackURL: process.env.CALLBACK_URL || "/api/auth/google/callback",
+      clientID: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      callbackURL: "http://localhost:5173/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -31,6 +32,7 @@ passport.use(
         }
 
         // Create new user if doesn't exist
+        const role = email === "nova.dick.team@gmail.com" ? "admin" : "user";
         const [newUser] = await db
           .insert(users)
           .values({
@@ -38,9 +40,11 @@ passport.use(
             email: email,
             password: "google_account", // No password needed for OAuth users
             avatar: profile.photos?.[0].value,
-            role: "user",
+            role: role,
           })
           .returning();
+          
+        sendWelcomeEmail(newUser.email, newUser.name);
 
         return done(null, newUser);
       } catch (error) {

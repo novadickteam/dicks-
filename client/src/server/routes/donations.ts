@@ -8,13 +8,13 @@ export const donationsRouter = Router();
 
 // Mock donation data
 const mockDonations = [
-  { id: 1, userId: 1, amount: "0.60", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 30), userName: "Juan P." },
-  { id: 2, userId: 2, amount: "1.20", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 25), userName: "María G." },
-  { id: 3, userId: 3, amount: "0.60", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 20), userName: "Carlos R." },
-  { id: 4, userId: 1, amount: "0.60", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 15), userName: "Juan P." },
-  { id: 5, userId: 4, amount: "1.20", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 10), userName: "Ana L." },
-  { id: 6, userId: 2, amount: "1.20", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 5), userName: "María G." },
-  { id: 7, userId: 5, amount: "0.60", source: "plan_purchase", createdAt: new Date(), userName: "Pedro M." },
+  { id: 1, userId: 1, amount: "0.60", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 30), userName: "Sebastián R." },
+  { id: 2, userId: 2, amount: "1.20", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 25), userName: "Aria S." },
+  { id: 3, userId: 3, amount: "0.60", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 20), userName: "Omar H." },
+  { id: 4, userId: 1, amount: "0.60", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 15), userName: "Sebastián R." },
+  { id: 5, userId: 4, amount: "1.20", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 10), userName: "Isabella V." },
+  { id: 6, userId: 2, amount: "1.20", source: "plan_purchase", createdAt: new Date(Date.now() - 86400000 * 5), userName: "Aria S." },
+  { id: 7, userId: 5, amount: "0.60", source: "plan_purchase", createdAt: new Date(), userName: "Lucas M." },
 ];
 
 // GET /api/donations
@@ -40,11 +40,28 @@ donationsRouter.get("/", async (_req, res) => {
     const totalResult = await db.select({ total: sum(donations.amount) }).from(donations);
     const total = totalResult[0]?.total || "0";
 
-    const recentDonations = await db
-      .select()
+    const recentDonationsData = await db
+      .select({
+        id: donations.id,
+        userId: donations.userId,
+        amount: donations.amount,
+        source: donations.source,
+        message: donations.message,
+        city: donations.city,
+        country: donations.country,
+        lat: donations.lat,
+        lng: donations.lng,
+        color: donations.color,
+        emoji: donations.emoji,
+        createdAt: donations.createdAt,
+        userName: users.name,
+      })
       .from(donations)
+      .leftJoin(users, eq(donations.userId, users.id))
       .orderBy(desc(donations.createdAt))
       .limit(20);
+
+    const recentDonations = recentDonationsData;
 
     const monthlyData = await db
       .select({

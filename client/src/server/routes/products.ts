@@ -3,56 +3,62 @@ import { db } from "../db/index.js";
 import { products, sales } from "../db/schema.js";
 import { eq, desc } from "drizzle-orm";
 import { authMiddleware, sellerMiddleware, type AuthRequest } from "../middleware/auth.js";
+import { upload } from "../lib/cloudinary.js";
 
 export const productsRouter = Router();
 
-// Mock products
-const mockProducts = [
-  {
-    id: 1, sellerId: 1, name: "Kit Huerta Vertical", description: "Kit completo con 4 macetas modulares, sustrato orgánico y semillas",
-    price: "25.00", image: null, category: "kits", stock: 50, isActive: true,
-    createdAt: new Date(), updatedAt: new Date(), sellerName: "AgroSmart"
-  },
-  {
-    id: 2, sellerId: 1, name: "Sensor de Humedad IoT", description: "Sensor WiFi para monitoreo de humedad del suelo en tiempo real",
-    price: "15.00", image: null, category: "tecnología", stock: 100, isActive: true,
-    createdAt: new Date(), updatedAt: new Date(), sellerName: "AgroSmart"
-  },
-  {
-    id: 3, sellerId: 2, name: "Compost Premium 5kg", description: "Abono orgánico de alta calidad, procesado con tecnología inteligente",
-    price: "8.00", image: null, category: "insumos", stock: 200, isActive: true,
-    createdAt: new Date(), updatedAt: new Date(), sellerName: "EcoGreen"
-  },
-  {
-    id: 4, sellerId: 2, name: "Semillas Orgánicas Mix", description: "Variedad de semillas: tomate, lechuga, albahaca, cilantro",
-    price: "5.00", image: null, category: "semillas", stock: 300, isActive: true,
-    createdAt: new Date(), updatedAt: new Date(), sellerName: "EcoGreen"
-  },
-];
+// POST /api/products/upload-image
+productsRouter.post("/upload-image", authMiddleware, sellerMiddleware, upload.single("image"), (req: any, res) => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ error: "No se subió ninguna imagen" });
+      return;
+    }
+    res.json({ url: req.file.path });
+  } catch (error) {
+    console.error("Error al subir imagen:", error);
+    res.status(500).json({ error: "Error al subir imagen a la nube" });
+  }
+});
 
 // GET /api/products
 productsRouter.get("/", async (_req, res) => {
   try {
     if (!db) {
-      res.json({ products: mockProducts });
+      res.json({ products: [] });
       return;
     }
-    const allProducts = await db.select().from(products).where(eq(products.isActive, true)).orderBy(desc(products.createdAt));
-    res.json({ products: allProducts.length > 0 ? allProducts : mockProducts });
+    const allProducts = await db
+      .select({
+        id: products.id,
+        sellerId: products.sellerId,
+        name: products.name,
+        slug: products.slug,
+        description: products.description,
+        price: products.price,
+        image: products.image,
+        category: products.category,
+        stock: products.stock,
+        rating: products.rating,
+        reviewsCount: products.reviewsCount,
+        isActive: products.isActive,
+        createdAt: products.createdAt,
+      })
+      .from(products)
+      .where(eq(products.isActive, true))
+      .orderBy(desc(products.createdAt));
+    res.json({ products: allProducts });
   } catch (error) {
     console.error("Error fetching products:", error);
-    res.json({ products: mockProducts });
+    res.json({ products: [] });
   }
 });
 
 // GET /api/products/mine
 productsRouter.get("/mine", authMiddleware, async (req: AuthRequest, res) => {
   try {
-    if (!db) {
-      res.json({ products: mockProducts.filter(p => p.sellerId === req.user!.id) });
-      return;
-    }
-    const myProducts = await db.select().from(products).where(eq(products.sellerId, req.user!.id));
+    if (!db) { res.json({ products: [] }); return; }
+    const myProducts = await db.select().from(products).where(eq(products.sellerId, req.user!.id)).orderBy(desc(products.createdAt));
     res.json({ products: myProducts });
   } catch (error) {
     console.error("Error:", error);
@@ -75,8 +81,11 @@ productsRouter.post("/", authMiddleware, sellerMiddleware, async (req: AuthReque
       return;
     }
 
+    // Generate slug from name
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now();
+
     const [product] = await db.insert(products).values({
-      sellerId: req.user!.id, name, description, price, image, category, stock: stock || 0,
+      sellerId: req.user!.id, name, slug, description, price, image, category, stock: stock || 0,
     }).returning();
 
     res.json({ product, message: "Producto creado exitosamente" });
@@ -147,10 +156,7 @@ productsRouter.post("/:id/buy", authMiddleware, async (req: AuthRequest, res) =>
     const qty = quantity || 1;
 
     if (!db) {
-      const product = mockProducts.find(p => p.id === productId);
-      if (!product) { res.status(404).json({ error: "Producto no encontrado" }); return; }
-      const total = parseFloat(product.price) * qty;
-      res.json({ sale: { id: Date.now(), productId, buyerId: req.user!.id, sellerId: product.sellerId, quantity: qty, totalAmount: total.toFixed(2) }, message: "Compra realizada" });
+      res.status(404).json({ error: "Producto no encontrado" });
       return;
     }
 

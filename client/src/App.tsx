@@ -10,19 +10,25 @@ import { TechnologiesSection } from './components/TechnologiesSection';
 import { DashboardSection } from './components/DashboardSection';
 import { FooterSection } from './components/FooterSection';
 import { Navbar } from './components/Navbar';
-import AuthSuccessPage from './pages/auth-success';
+import { AdminDashboard } from './components/AdminDashboard';
 import { DonationsTracker } from './components/DonationsTracker';
 import { Marketplace } from './components/Marketplace';
 import { Education } from './components/Education';
 import { PricingSection } from './components/PricingSection';
+import { AIChatbot } from './components/AIChatbot';
+import AuthPage from './pages/auth-page';
+import AuthSuccessPage from './pages/auth-success';
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="app-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="app-theme">
       <AuthProvider>
         <Router>
           <Route path="/">
             {() => <HomePage />}
+          </Route>
+          <Route path="/auth">
+            {() => <AuthPage />}
           </Route>
           <Route path="/dashboard">
             {() => <DashboardPage />}
@@ -39,7 +45,11 @@ export default function App() {
           <Route path="/donations">
             {() => <DonationsPage />}
           </Route>
+          <Route path="/admin">
+            {() => <AdminPage />}
+          </Route>
         </Router>
+        <AIChatbot />
         <Toaster />
       </AuthProvider>
     </ThemeProvider>
@@ -48,7 +58,8 @@ export default function App() {
 
 function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
       <HeroSection />
       <ImpactSection />
       <VerticalGardensSection />
@@ -63,7 +74,7 @@ function HomePage() {
 
 function DashboardPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <div className="pt-20">
         <DashboardSection />
@@ -74,7 +85,7 @@ function DashboardPage() {
 
 function MarketplacePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <div className="pt-32 pb-20 container mx-auto px-6">
         <header className="mb-12">
@@ -91,7 +102,7 @@ function MarketplacePage() {
 
 function EducationPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <div className="pt-32 pb-20 container mx-auto px-6">
         <header className="mb-16 text-center max-w-3xl mx-auto">
@@ -108,17 +119,40 @@ function EducationPage() {
 
 function DonationsPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <div className="pt-32 pb-20 container mx-auto px-6">
         <header className="text-center max-w-2xl mx-auto mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Muro de Impacto</h1>
-          <p className="text-lg text-muted-foreground">Donamos automáticamente el 30% de cada suscripción comprada para financiar proyectos de agricultura urbana en zonas vulnerables.</p>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-glow">Muro de Impacto</h1>
+          <p className="text-lg text-muted-foreground">Explora de dónde provienen los aportes mundiales a nuestras iniciativas urbanas tecnológicas en tiempo real.</p>
         </header>
-        
+
+        {/* 3D Globe Section */}
+        <section className="mb-16 flex justify-center">
+          <div className="w-full max-w-5xl h-[400px] md:h-[500px] rounded-3xl overflow-hidden border border-border shadow-2xl relative glow-effect">
+            <iframe 
+              src="/globe.html" 
+              className="w-full h-full border-none pointer-events-auto" 
+              title="Donaciones Globales 3D"
+            />
+          </div>
+        </section>
+
+        {/* Charts & Table Section */}
         <DonationsTracker />
       </div>
       <FooterSection />
+    </div>
+  );
+}
+
+function AdminPage() {
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
+      <div className="pt-20">
+        <AdminDashboard />
+      </div>
     </div>
   );
 }

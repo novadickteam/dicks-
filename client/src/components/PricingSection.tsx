@@ -68,7 +68,10 @@ export function PricingSection() {
       
       <div className="container mx-auto relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <Badge className="mb-6 px-4 py-1.5 rounded-full bg-primary/10 text-primary border-primary/20">Planes de Suscripción</Badge>
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="h-[2px] w-6 bg-primary" />
+            <span className="text-xs font-bold tracking-widest uppercase text-primary">Planes y Alcance</span>
+          </div>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
             Elige tu camino hacia la <br/> <span className="text-primary italic">Sostenibilidad</span>
           </h2>
@@ -90,7 +93,7 @@ export function PricingSection() {
             />
           </button>
           <span className={`text-sm font-bold ${billingCycle === 'annual' ? 'text-foreground' : 'text-muted-foreground'}`}>Anual (Ahorra 20%)</span>
-          <Badge variant="outline" className="border-emerald-500/50 text-emerald-600 bg-emerald-50">Oferta</Badge>
+          <div className="px-3 py-1 border-l-2 border-emerald-500 bg-emerald-500/5 text-emerald-500 text-[10px] font-bold uppercase tracking-wider">Ahorro Activo</div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">

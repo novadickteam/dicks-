@@ -9,12 +9,10 @@ export function FooterSection() {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                <Leaf size={20} />
+              <div className="relative w-10 h-10 overflow-hidden rounded-xl">
+                <img src="/logo.png" alt="BioSmart Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="font-bold text-2xl tracking-tight text-white">AgroSmart</span>
-            </div>
+              <span className="font-bold text-2xl tracking-tight text-white">BioSmart</span>
             <p className="max-w-md text-zinc-400 mb-8 leading-relaxed">
               Hackeando la agricultura urbana. Combinamos biotecnología, IoT e inteligencia artificial para crear sistemas alimentarios resilientes en el corazón de las ciudades.
             </p>
@@ -40,7 +38,7 @@ export function FooterSection() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <Mail size={16} className="text-primary" />
-                <span>hola@agrosmart.eco</span>
+                <span>hola@biosmart.eco</span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-primary mt-1" />
@@ -69,7 +67,7 @@ export function FooterSection() {
         </div>
 
         <div className="border-t border-zinc-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-          <p>© {new Date().getFullYear()} AgroSmart Technologies. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} BioSmart Technologies. Todos los derechos reservados.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Privacidad</a>
             <a href="#" className="hover:text-white transition-colors">Términos</a>

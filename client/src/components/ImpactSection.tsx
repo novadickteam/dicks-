@@ -33,9 +33,9 @@ export function ImpactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="flex items-center gap-2 mb-6">
-              <Heart className="text-white fill-white" />
-              <span className="font-semibold tracking-widest uppercase text-sm">Nuestro Propósito</span>
+            <div className="mb-6">
+              <div className="w-12 h-[1px] bg-white mb-2" />
+              <span className="font-bold tracking-widest uppercase text-xs text-white/60">Propósito BioSmart</span>
             </div>
             
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
@@ -45,7 +45,7 @@ export function ImpactSection() {
             </h2>
             
             <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 leading-relaxed font-medium max-w-xl">
-              La tecnología sin propósito es solo código. AgroSmart nació con una misión clara: democratizar el acceso a alimentos frescos, orgánicos y nutritivos en desiertos alimentarios urbanos.
+              La tecnología sin propósito es solo código. BioSmart nació con una misión clara: democratizar el acceso a alimentos frescos, orgánicos y nutritivos en desiertos alimentarios urbanos.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

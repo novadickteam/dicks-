@@ -92,11 +92,14 @@ export const products = pgTable("products", {
     .references(() => users.id)
     .notNull(),
   name: varchar("name", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 255 }).unique(),
   description: text("description"),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   image: text("image"),
   category: varchar("category", { length: 100 }),
   stock: integer("stock").default(0),
+  rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
+  reviewsCount: integer("reviews_count").default(0),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -132,6 +135,13 @@ export const donations = pgTable("donations", {
   ),
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
   source: varchar("source", { length: 100 }).notNull(), // "plan_purchase", "direct"
+  message: text("message"),
+  city: varchar("city", { length: 100 }),
+  country: varchar("country", { length: 100 }),
+  lat: decimal("lat", { precision: 10, scale: 6 }),
+  lng: decimal("lng", { precision: 10, scale: 6 }),
+  color: varchar("color", { length: 20 }),
+  emoji: varchar("emoji", { length: 10 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -146,6 +156,19 @@ export const aiUsage = pgTable("ai_usage", {
   prompt: text("prompt"),
   response: text("response"),
   tokensUsed: integer("tokens_used").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// ============ CHAT HISTORY ============
+
+export const chatHistory = pgTable("chat_history", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id")
+    .references(() => users.id)
+    .notNull(),
+  message: text("message").notNull(),
+  response: text("response").notNull(),
+  role: varchar("role", { length: 50 }).default("user").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -198,6 +221,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   salesAsSeller: many(sales, { relationName: "seller" }),
   donations: many(donations),
   aiUsage: many(aiUsage),
+  chatHistory: many(chatHistory),
   aiSuggestions: many(aiSuggestions),
   notifications: many(notifications),
 }));
@@ -235,4 +259,8 @@ export const donationsRelations = relations(donations, ({ one }) => ({
 
 export const aiUsageRelations = relations(aiUsage, ({ one }) => ({
   user: one(users, { fields: [aiUsage.userId], references: [users.id] }),
+}));
+
+export const chatHistoryRelations = relations(chatHistory, ({ one }) => ({
+  user: one(users, { fields: [chatHistory.userId], references: [users.id] }),
 }));

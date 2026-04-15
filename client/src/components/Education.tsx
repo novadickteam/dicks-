@@ -50,9 +50,12 @@ export function Education() {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                <Badge className="absolute top-4 left-4 bg-background/90 backdrop-blur-md text-foreground border-border/50">
-                  {course.category}
-                </Badge>
+                <div className="absolute top-4 left-4 flex flex-col items-start gap-1">
+                  <div className="h-[2px] w-6 bg-primary" />
+                  <span className="text-[10px] font-bold tracking-widest uppercase text-white drop-shadow-md">
+                    {course.category}
+                  </span>
+                </div>
               </div>
               
               <CardContent className="p-8 flex-grow flex flex-col">
@@ -81,23 +84,26 @@ export function Education() {
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        className="relative overflow-hidden rounded-[40px] bg-foreground text-background p-8 md:p-16"
+        className="relative overflow-hidden rounded-[40px] bg-card border border-border text-foreground p-8 md:p-16 shadow-xl"
       >
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
           <img src="/images/hydroponics-lab.png" className="w-full h-full object-cover grayscale" />
         </div>
         
         <div className="relative z-10 max-w-2xl">
-          <Badge className="bg-primary text-primary-foreground border-none mb-6">Guía Gratuita</Badge>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-[1px] w-12 bg-primary" />
+            <span className="text-xs font-bold tracking-widest uppercase text-primary">Recurso Exclusivo</span>
+          </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
             Manual Maestro de <br/> <span className="text-primary italic">Hidroponía Urbana</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
             Descarga nuestra guía de 150 páginas sobre cómo montar sistemas de cultivo de alto rendimiento en apartamentos y espacios reducidos.
           </p>
-          <button className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-bold flex items-center gap-3 hover:bg-primary/90 transition-colors">
+          <button className="px-8 py-4 bg-primary text-white rounded-2xl font-bold flex items-center gap-3 shadow-lg hover:bg-primary/90 transition-all hover:-translate-y-1">
             <BookOpen size={20} />
-            Descargar PDF (24MB)
+            <a href="https://cipac.org.pa/wp-content/uploads/2024/11/Manual-sobre-la-Finca-Vertical_Espanol-19-08-24.pdf"><span>Descargar PDF (24MB)</span></a>
           </button>
         </div>
       </motion.div>

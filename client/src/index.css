@@ -44,37 +44,32 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
-
 :root {
-  --background: 140 10% 98%;
-  --foreground: 140 30% 10%;
-  --border: 140 20% 85%;
-  --card: 0 0% 100%;
-  --card-foreground: 140 30% 10%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 140 30% 10%;
-  --primary: 150 80% 35%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 210 60% 45%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 140 10% 90%;
-  --muted-foreground: 140 10% 40%;
-  --accent: 140 20% 90%;
-  --accent-foreground: 140 30% 20%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --input: 140 20% 80%;
-  --ring: 150 80% 35%;
-
-  --chart-1: 150 80% 35%;
-  --chart-2: 210 60% 45%;
-  --chart-3: 180 50% 50%;
-  --chart-4: 120 40% 60%;
-  --chart-5: 200 40% 70%;
-
   --app-font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
   --app-font-mono: 'Space Mono', monospace;
   --radius: 1rem;
+}
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 215 30% 10%;
+  --border: 215 20% 90%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 30% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 30% 10%;
+  --primary: 150 80% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 20% 94%;
+  --secondary-foreground: 215 30% 10%;
+  --muted: 215 20% 94%;
+  --muted-foreground: 215 10% 40%;
+  --accent: 215 20% 94%;
+  --accent-foreground: 215 30% 10%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 215 20% 90%;
+  --ring: 150 80% 40%;
 }
 
 .dark {

@@ -6,6 +6,7 @@ import { users } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import { authMiddleware, type AuthRequest } from "../middleware/auth.js";
 import passport from "../lib/passport.js";
+import { sendWelcomeEmail } from "../lib/mailer.js";
 
 export const authRouter = Router();
 
@@ -57,6 +58,9 @@ authRouter.post("/register", async (req, res) => {
       token,
       user: { id: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role },
     });
+
+    // Send Welcome Email asynchronously
+    sendWelcomeEmail(newUser.email, newUser.name);
   } catch (error: any) {
     console.error("Error en registro:", error);
     res.status(500).json({ error: "Error interno del servidor" });

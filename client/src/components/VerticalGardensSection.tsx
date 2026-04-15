@@ -37,8 +37,9 @@ export function VerticalGardensSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary mb-6">
-              <span className="text-xs font-semibold tracking-wider uppercase">Granjas Verticales</span>
+            <div className="mb-8">
+              <div className="w-12 h-[2px] bg-secondary mb-3" />
+              <span className="text-xs font-bold tracking-widest uppercase text-secondary">Ecosistemas Elevados</span>
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
