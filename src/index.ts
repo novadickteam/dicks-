@@ -1,15 +1,17 @@
 import dotenv from 'dotenv';
+import express from 'express';
 
 dotenv.config();
 
+const app = express();
 const PORT = process.env.PORT ?? 3000;
-const ENV  = process.env.NODE_ENV ?? 'development';
 
-function main(): void {
-  console.log(`✅ Proyecto corriendo`);
-  console.log(`   Entorno : ${ENV}`);
-  console.log(`   Puerto  : ${PORT}`);
-  console.log(`\n🚀 ¡Hackathon en marcha! Agrega tu código en src/`);
-}
+app.use(express.json());
 
-main();
+app.get('/', (req, res) => {
+  res.send('<h1>🚀 Hackathon en marcha!</h1><p>El servidor está corriendo.</p>');
+});
+
+app.listen(PORT, () => {
+  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+});
