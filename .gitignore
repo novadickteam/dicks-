@@ -3,6 +3,8 @@ node_modules/
 
 # Build
 dist/
+client/dist/
+server/dist/
 
 # Variables de entorno (NUNCA subir a GitHub)
 .env
@@ -22,3 +24,9 @@ Thumbs.db
 *.ntvs*
 *.njsproj
 *.sln
+
+# Drizzle
+drizzle/
+
+# Misc
+.qodo/
